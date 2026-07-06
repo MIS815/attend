@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn-icons-png.flaticon.com/512/2972/2972531.png">
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2972/2972531.png">
-  <link rel="manifest" href="manifest.json">
   <title>Attendance</title>
-  <script>
-    const token = new URLSearchParams(location.search).get('token') || '';
-    location.replace('https://script.google.com/a/macros/pmrcjew.com/s/AKfycbypcZfv56surOfbo6ynKvS2lMzeEr0d97ACszzGINvrFY8TyXq2JdzTuIKnkfh13YUI/exec?token=' + token);
-  </script>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2972/2972531.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn-icons-png.flaticon.com/512/2972/2972531.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a237e">
+  <style>
+    body{font-family:sans-serif;text-align:center;padding:48px 20px;background:#f5f7fa;color:#1a237e;}
+    img{width:120px;height:120px;border-radius:26px;margin-bottom:22px;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+    h1{font-size:23px;margin:0 0 8px;}
+    p{color:#667;font-size:14px;margin:0 0 26px;line-height:1.5;}
+    button{background:#1a237e;color:#fff;border:none;padding:16px 40px;font-size:17px;font-weight:700;border-radius:14px;}
+  </style>
 </head>
-<body>Opening Attendance…</body>
+<body>
+  <img src="https://cdn-icons-png.flaticon.com/512/2972/2972531.png" alt="Attendance">
+  <h1>Attendance</h1>
+  <p id="msg">Opening…</p>
+  <button id="openBtn" style="display:none" onclick="go()">Open Attendance</button>
+  <script>
+    var EXEC = 'https://script.google.com/a/macros/pmrcjew.com/s/AKfycbypcZfv56surOfbo6ynKvS2lMzeEr0d97ACszzGINvrFY8TyXq2JdzTuIKnkfh13YUI/exec';
+    var token = new URLSearchParams(location.search).get('token') || '';
+    if (token) { try { localStorage.setItem('att_token', token); } catch(e){} }
+    else { try { token = localStorage.getItem('att_token') || ''; } catch(e){} }
+    function go(){ location.replace(EXEC + '?token=' + token); }
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (standalone) {
+      go();
+    } else {
+      document.getElementById('msg').textContent = 'Tap the button to open. To get the app icon: menu (⋮) → Add to Home screen.';
+      document.getElementById('openBtn').style.display = 'inline-block';
+    }
+  </script>
+</body>
 </html>
